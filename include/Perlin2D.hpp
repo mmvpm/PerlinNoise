@@ -3,6 +3,7 @@
 #include <cmath>
 #include <map>
 #include <random>
+#include <ctime>
 
 using point_int = std::pair<int, int>;
 using point_float = std::pair<float, float>;
@@ -27,7 +28,7 @@ private:
     }
 
     static float generate_angle() {
-        static std::mt19937 gen(0);
+        static std::mt19937 gen(time(nullptr));
         static std::uniform_real_distribution<float> urd(0, 2 * M_PI);
         return urd(gen);
     }
