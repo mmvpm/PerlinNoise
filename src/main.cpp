@@ -270,8 +270,8 @@ int main() try {
         camera.angle.y += dt * (float) button_down[SDLK_UP];
         camera.angle.y -= dt * (float) button_down[SDLK_DOWN];
 
-        camera.shift.x += dt * (float) button_down[SDLK_a];
-        camera.shift.x -= dt * (float) button_down[SDLK_d];
+        camera.shift.x += dt * (float) button_down[SDLK_d];
+        camera.shift.x -= dt * (float) button_down[SDLK_a];
         camera.shift.y += dt * (float) button_down[SDLK_f];
         camera.shift.y -= dt * (float) button_down[SDLK_r];
         camera.shift.z += dt * (float) button_down[SDLK_s];
