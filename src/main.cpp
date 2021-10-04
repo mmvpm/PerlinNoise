@@ -272,8 +272,8 @@ int main() try {
 
         camera.shift.x += dt * (float) button_down[SDLK_d];
         camera.shift.x -= dt * (float) button_down[SDLK_a];
-        camera.shift.y += dt * (float) button_down[SDLK_f];
-        camera.shift.y -= dt * (float) button_down[SDLK_r];
+        camera.shift.y += dt * (float) button_down[SDLK_r];
+        camera.shift.y -= dt * (float) button_down[SDLK_f];
         camera.shift.z += dt * (float) button_down[SDLK_s];
         camera.shift.z -= dt * (float) button_down[SDLK_w];
 
