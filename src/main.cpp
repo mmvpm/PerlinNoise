@@ -178,15 +178,16 @@ int main() try {
 	auto fragment_shader = create_shader(GL_FRAGMENT_SHADER, fragment_shader_source);
 	auto program = create_program(vertex_shader, fragment_shader);
 
-	GLuint view_location = glGetUniformLocation(program, "view");
-	GLuint transform_xz_location = glGetUniformLocation(program, "transform_xz");
-	GLuint transform_yz_location = glGetUniformLocation(program, "transform_yz");
-    GLuint isoline_count_location = glGetUniformLocation(program, "isoline_count");
+	GLint view_location = glGetUniformLocation(program, "view");
+	GLint transform_xz_location = glGetUniformLocation(program, "transform_xz");
+	GLint transform_yz_location = glGetUniformLocation(program, "transform_yz");
+    GLint isoline_count_location = glGetUniformLocation(program, "isoline_count");
 
     float time = 0.f;
     int frames_per_second = 0;
     auto last_frame_start = std::chrono::high_resolution_clock::now();
 
+    // declaring vertex buffers
     GLuint vbo_x;
     GLuint vbo_y;
     GLuint vbo_z;
@@ -196,26 +197,32 @@ int main() try {
     glGenBuffers(1, &vbo_z);
     glGenBuffers(1, &vbo_color);
 
+    // declaring vertex array
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
+    // reading from vbo for x-coordinate
     glBindBuffer(GL_ARRAY_BUFFER, vbo_x);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+    glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
 
+    // reading from vbo for y-coordinate
     glBindBuffer(GL_ARRAY_BUFFER, vbo_y);
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+    glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
 
+    // reading from vbo for z-coordinate
     glBindBuffer(GL_ARRAY_BUFFER, vbo_z);
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 0, nullptr);
 
+    // reading from vbo for color
     glBindBuffer(GL_ARRAY_BUFFER, vbo_color);
     glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, (void *) 0);
+    glVertexAttribPointer(3, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, nullptr);
 
+    // declaring a buffer for vertex indices
     GLuint ebo;
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -333,28 +340,32 @@ int main() try {
 		glUseProgram(program);
 
         if (plot.is_xz_changed_with_reset()) {
+            // updating x-coordinates
             glBindBuffer(GL_ARRAY_BUFFER, vbo_x);
-            glBufferData(GL_ARRAY_BUFFER, plot.vertices_x.size() * sizeof(float), plot.vertices_x.data(), GL_STREAM_COPY);
+            glBufferData(GL_ARRAY_BUFFER, (int) (plot.vertices_x.size() * sizeof(float)), plot.vertices_x.data(), GL_STREAM_COPY);
 
+            // updating z-coordinates
             glBindBuffer(GL_ARRAY_BUFFER, vbo_z);
-            glBufferData(GL_ARRAY_BUFFER, plot.vertices_z.size() * sizeof(float), plot.vertices_z.data(), GL_STREAM_COPY);
+            glBufferData(GL_ARRAY_BUFFER, (int) (plot.vertices_z.size() * sizeof(float)), plot.vertices_z.data(), GL_STREAM_COPY);
 
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, plot.vertex_indices.size() * sizeof(uint32_t), plot.vertex_indices.data(), GL_STREAM_COPY);
+            // updating vertex indices
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, (int) (plot.vertex_indices.size() * sizeof(uint32_t)), plot.vertex_indices.data(), GL_STREAM_COPY);
         }
 
+        // updating y-coordinates (height)
         glBindBuffer(GL_ARRAY_BUFFER, vbo_y);
-        glBufferData(GL_ARRAY_BUFFER, plot.vertices_y.size() * sizeof(float), plot.vertices_y.data(), GL_STREAM_COPY);
+        glBufferData(GL_ARRAY_BUFFER, (int) (plot.vertices_y.size() * sizeof(float)), plot.vertices_y.data(), GL_STREAM_COPY);
 
+        // updating colors
         glBindBuffer(GL_ARRAY_BUFFER, vbo_color);
-        glBufferData(GL_ARRAY_BUFFER, plot.vertices_color.size() * sizeof(float), plot.vertices_color.data(), GL_STREAM_COPY);
+        glBufferData(GL_ARRAY_BUFFER, (int) (plot.vertices_color.size() * sizeof(float)), plot.vertices_color.data(), GL_STREAM_COPY);
 
         glUniform1i(isoline_count_location, plot.isoline_count);
 
         glUniformMatrix4fv(view_location, 1, GL_TRUE, view);
-
         glUniformMatrix4fv(transform_xz_location, 1, GL_TRUE, transform_xz);
         glUniformMatrix4fv(transform_yz_location, 1, GL_TRUE, transform_yz);
-        glDrawElements(GL_TRIANGLES, plot.vertex_indices.size(), GL_UNSIGNED_INT, (void *) 0);
+        glDrawElements(GL_TRIANGLES, (int) plot.vertex_indices.size(), GL_UNSIGNED_INT, nullptr);
 
 		SDL_GL_SwapWindow(window);
 	}
