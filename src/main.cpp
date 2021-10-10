@@ -228,7 +228,7 @@ int main() try {
     std::map<SDL_Keycode, bool> button_down;
 
     bool running = true;
-	while (running) {
+	while (true) {
         // handling events
 		for (SDL_Event event; SDL_PollEvent(&event);) switch (event.type) {
 		case SDL_QUIT:
@@ -282,7 +282,15 @@ int main() try {
         if (button_down[SDLK_0]) plot.increase_isoline_count();
         if (button_down[SDLK_9]) plot.decrease_isoline_count();
 
-        plot.dynamic_update(); // applying changes
+        // fill in triangles with color or not
+        if (button_down[SDLK_LCTRL]) {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        } else {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+
+        bool stop_the_time = button_down[SDLK_SPACE];
+        plot.dynamic_update(stop_the_time); // applying changes
 
         // 3D view parameters
         float aspect_ratio = (float) width / (float) height; // in `while` for dynamic window resizing

@@ -52,7 +52,7 @@ public:
     void decrease_isoline_count();
     bool is_xz_changed_with_reset();
 
-    void dynamic_update();
+    void dynamic_update(bool stop_the_time = false);
 
 private:
     [[nodiscard]] std::size_t vertices_size() const;

@@ -10,6 +10,6 @@ private:
 
 public:
     // configuration
-    vec3 angle { -0.4f, 0.4f, 0.f };
-    vec3 shift { 0.f, 0.2f, 2.7f };
+    vec3 angle { -0.4f, 0.6f, 0.f };
+    vec3 shift { 0.f, 0.f, 2.7f };
 };

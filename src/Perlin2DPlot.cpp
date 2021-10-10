@@ -49,8 +49,9 @@ void Perlin2DPlot::decrease_isoline_count() {
 }
 
 // updating y coordinate and color
-void Perlin2DPlot::dynamic_update() {
-    perlin.update_angles(perlin_eps);
+void Perlin2DPlot::dynamic_update(bool stop_the_time) {
+    if (!stop_the_time)
+        perlin.update_angles(perlin_eps);
 
     // updating sizes
     vertices_y.resize(vertices_size());
