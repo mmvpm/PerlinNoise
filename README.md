@@ -19,4 +19,6 @@
 
 ## Пример
 
+[Видео](https://disk.yandex.ru/i/fmZALQZ50pcMyg) или скриншот:
+
 <img src="https://i.ibb.co/dLq8XDJ/image.png">
